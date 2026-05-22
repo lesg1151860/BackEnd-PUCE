@@ -1,16 +1,18 @@
-from enum import Enum
-from typing import Optional
-from sqlmodel import SQLModel, Field
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
+class User(AbstractUser):
+    # Definimos las opciones del Enum usando tuplas para Django
+    ROLE_CHOICES = (
+        ('admin', 'admin'),
+        ('lider', 'lider'),
+    )
+    
+    # Heredamos de AbstractUser, el cual ya maneja 'id' automáticamente y 
+    # gestiona la contraseña de forma segura (hasheada) internamente.
+    full_name = models.CharField(max_length=255, verbose_name="Nombre Completo")
+    email = models.EmailField(unique=True, verbose_name="Correo Electrónico")
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='lider', verbose_name="Rol")
 
-class Role(str, Enum):
-    admin = "admin"
-    lider = "lider"
-
-
-class User(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    full_name: str
-    email: str = Field(index=True)
-    hashed_password: str
-    role: Role = Field(sa_column_kwargs={"default": Role.lider})
+    def __str__(self):
+        return f"{self.username} - {self.role}"
