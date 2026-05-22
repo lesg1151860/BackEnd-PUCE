@@ -4,29 +4,30 @@ from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    # Controla las columnas que se muestran en la tabla principal de usuarios
-    list_display = ('username', 'full_name', 'email', 'role', 'is_staff', 'is_active')
+    # Mostramos el método personalizado 'mostrar_grupos' en la tabla
+    list_display = ('username', 'full_name', 'email', 'is_staff', 'is_active', 'mostrar_grupos')
     
-    # Añade filtros laterales para buscar usuarios rápidamente por rol o estado
-    list_filter = ('role', 'is_staff', 'is_active')
-    
-    # Permite buscar usuarios por nombre completo, usuario o correo
+    # Permitimos filtrar lateralmente por los grupos existentes
+    list_filter = ('groups', 'is_staff', 'is_active')
     search_fields = ('username', 'full_name', 'email')
-    
-    # Orden predeterminado por nombre completo
     ordering = ('full_name',)
 
-    # Modifica los formularios de edición para incluir tus campos personalizados
+    # UserAdmin ya maneja la edición de grupos por defecto, 
+    # solo añadimos el campo de nombre completo a los bloques existentes.
     fieldsets = UserAdmin.fieldsets + (
-        ('Información de Roles del Sistema', {
-            'fields': ('full_name', 'role'),
+        ('Información Personalizada', {
+            'fields': ('full_name',),
         }),
     )
 
-    # Modifica el formulario de creación de usuario para incluir los campos obligatorios
     add_fieldsets = UserAdmin.add_fieldsets + (
         ('Información Obligatoria', {
             'classes': ('wide',),
-            'fields': ('full_name', 'email', 'role'),
+            'fields': ('full_name', 'email'),
         }),
     )
+
+    # Función para renderizar los nombres de los grupos en la lista de usuarios
+    def mostrar_grupos(self, obj):
+        return ", ".join([grupo.name for grupo in obj.groups.all()])
+    mostrar_grupos.short_description = 'Grupos / Roles'
