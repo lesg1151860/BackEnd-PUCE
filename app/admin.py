@@ -4,30 +4,41 @@ from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    # Mostramos el método personalizado 'mostrar_grupos' en la tabla
-    list_display = ('username', 'full_name', 'email', 'is_staff', 'is_active', 'mostrar_grupos')
+    # 1. Agregamos 'date_joined' a la lista para verlo en la tabla principal
+    list_display = ('username', 'full_name', 'email', 'role', 'is_active', 'mostrar_grupos', 'date_joined')
     
-    # Permitimos filtrar lateralmente por los grupos existentes
-    list_filter = ('groups', 'is_staff', 'is_active')
-    search_fields = ('username', 'full_name', 'email')
-    ordering = ('full_name',)
+    list_filter = ('groups', 'role', 'is_active', 'date_joined') # Filtro por fecha opcional
+    search_fields = ('username', 'full_name', 'email', 'role')
+    ordering = ('-date_joined',) # Ordenamos por los más recientes primero
 
-    # UserAdmin ya maneja la edición de grupos por defecto, 
-    # solo añadimos el campo de nombre completo a los bloques existentes.
-    fieldsets = UserAdmin.fieldsets + (
-        ('Información Personalizada', {
-            'fields': ('full_name',),
+    # 2. 'date_joined' y 'last_login' son automáticos y no deben ser editables
+    readonly_fields = ('date_joined', 'last_login')
+    
+    filter_horizontal = ('groups',)
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Información Personal', {
+            'fields': ('full_name', 'email', 'role')
+        }),
+        ('Permisos', {
+            'fields': ('is_active',), 
+        }),
+        ('Grupos y Roles', {
+            'fields': ('groups',),
+        }),
+        ('Fechas de Control', {
+            'fields': ('date_joined', 'last_login'), # Visualización de fecha de creación
         }),
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
         ('Información Obligatoria', {
             'classes': ('wide',),
-            'fields': ('full_name', 'email'),
+            'fields': ('full_name', 'email', 'role'),
         }),
     )
 
-    # Función para renderizar los nombres de los grupos en la lista de usuarios
     def mostrar_grupos(self, obj):
         return ", ".join([grupo.name for grupo in obj.groups.all()])
     mostrar_grupos.short_description = 'Grupos / Roles'
