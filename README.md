@@ -1,25 +1,52 @@
-# Inicio de sesión básico (FastAPI)
+# PUCE - Plataforma Unificada de Convivencia Escolar
 
-Instrucciones rápidas para ejecutar la API localmente:
+## 📋 Descripción
 
-Instalar dependencias:
+La Plataforma Unificada de Convivencia Escolar (PUCE) es una solución integral diseñada para la Secretaría de Educación de la Alcaldía de San José de Cúcuta. El objetivo principal es centralizar, gestionar y realizar el seguimiento de los casos y procesos de convivencia en las instituciones educativas.
 
+## 🚀 Instalación y Despliegue
+
+Para poner en marcha el proyecto en tu entorno local, sigue estos pasos:
+
+### 1. Clonar el repositorio
 ```bash
-python -m pip install -r requirements.txt
+git clone https://github.com/lesg1151860/BackEnd-PUCE.git
+cd BackEnd-PUCE
 ```
 
-Ejecutar el servidor:
-
+### 2. Configurar el entorno virtual
 ```bash
-uvicorn app.main:app --reload
+python -m venv venv
 ```
 
-Endpoints principales:
-- `POST /register` — Crear usuario (campos: `full_name`, `email`, `password`, `role`)
-- `POST /token` — Obtener token (OAuth2 password, usar `username`=email)
-- `GET /users` — Listar usuarios (requiere rol `admin`)
-- `DELETE /users/{id}` — Eliminar usuario (requiere rol `admin`)
+En **macOS/Linux**:
+```bash
+source venv/bin/activate
+```
 
-Notas:
-- Cambia `SECRET_KEY` en `app/main.py` antes de producción.
-- La base de datos usada es SQLite (`dev.db`) en la raíz del proyecto.
+En **Windows**:
+```bash
+venv\Scripts\activate
+```
+
+### 3. Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+
+## 🛠️ Tecnologías del BackEnd
+
+Este proyecto utiliza las siguientes tecnologías en el backend:
+
+* **Lenguaje:** Python
+* **Framework:** Django
+* **Base de Datos:** PostgreSQL (Supabase)
+* **API:** Django REST Framework
+
+## 👥 Autores
+
+* [Luis Eduardo Soto García](https://github.com/lesg1151860)
+
+## 📄 Licencia
+
+Este proyecto es propiedad de la Alcaldía de Cúcuta, a través de la Secretaría de Educación. Todos los derechos reservados.
