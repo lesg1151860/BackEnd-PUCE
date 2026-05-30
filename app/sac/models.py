@@ -1,5 +1,17 @@
 from django.db import models
 
+class TipoIdentificacion(models.Model):
+    nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nombre
+
+class Institucion(models.Model):
+    nombre = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nombre
+    
 class SolicitudSAC(models.Model):
     radicado = models.CharField(max_length=20, primary_key=True, help_text="Formato: CUCYYYYER######")
     ciudadano = models.CharField(max_length=255)
@@ -34,5 +46,8 @@ class SolicitudSAC(models.Model):
     ESTADO_CHOICES = [('SEG', 'EN SEGUIMIENTO'), ('TER', 'TERMINADO')]
     estado = models.CharField(max_length=3, choices=ESTADO_CHOICES)
 
+    tipo_identificacion = models.ForeignKey(TipoIdentificacion, on_delete=models.SET_NULL, null=True)
+    institucion = models.ForeignKey(Institucion, on_delete=models.SET_NULL, null=True)
+    
     def __str__(self):
         return f"Radicado: {self.radicado}"
