@@ -29,9 +29,11 @@ AUTH_USER_MODEL = 'app.User'
 
 # Application definition
 INSTALLED_APPS = [
+    'rest_framework',
     'app',
     'app.sac',
     'app.siuce',
+    'accounts',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
