@@ -1,28 +1,32 @@
 from django.db import models
 from django.conf import settings
+from institucion_educativa.models import InstitucionEducativa
 
 # --- Catálogos ---
 
 class RolCiudadano(models.Model):
     descripcion = models.CharField(max_length=100)
-    def __str__(self): return self.descripcion
+    
+    def __str__(self): 
+        return self.descripcion
 
 class EstadoSAC(models.Model):
     descripcion = models.CharField(max_length=100)
-    def __str__(self): return self.descripcion
+    
+    def __str__(self): 
+        return self.descripcion
 
 class SACRespuesta(models.Model):
     descripcion = models.TextField()
-    def __str__(self): return self.descripcion
+    
+    def __str__(self): 
+        return self.descripcion
 
 class Clasificacion(models.Model):
     descripcion = models.CharField(max_length=100)
-    def __str__(self): return self.descripcion
-
-class InstitucionEducativa(models.Model):
-    nombre_oficial = models.CharField(max_length=255)
-    sector = models.CharField(max_length=50) # Sector público o privado
-    def __str__(self): return self.nombre_oficial
+    
+    def __str__(self): 
+        return self.descripcion
 
 # --- Modelo Principal: Caso SAC ---
 class CasoSAC(models.Model):
@@ -56,13 +60,10 @@ class CasoSAC(models.Model):
     sac_respuesta = models.ForeignKey(SACRespuesta, on_delete=models.SET_NULL, null=True, blank=True)
     clasificacion = models.ForeignKey(Clasificacion, on_delete=models.PROTECT)
     
-    # Instituciones (Mapeando Id_Institucion_1 e Id_Institucion_2)
+    # Instituciones (Mapeando Id_Institucion_1 e Id_Institucion_2 al nuevo modelo importado)
     institucion_1 = models.ForeignKey(InstitucionEducativa, on_delete=models.PROTECT, related_name='casos_institucion_1')
     institucion_2 = models.ForeignKey(InstitucionEducativa, on_delete=models.PROTECT, related_name='casos_institucion_2', null=True, blank=True)
-    
-    # Usuario
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+        
     class Meta:
         verbose_name = "Caso SAC"
         verbose_name_plural = "Casos SAC"

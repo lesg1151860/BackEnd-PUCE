@@ -24,21 +24,14 @@ class ClasificacionAdmin(admin.ModelAdmin):
     list_display = ('id', 'descripcion')
     search_fields = ('descripcion',)
 
-@admin.register(InstitucionEducativa)
-class InstitucionEducativaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nombre_oficial', 'sector')
-    list_filter = ('sector',)
-    search_fields = ('nombre_oficial',)
 
 @admin.register(CasoSAC)
 class CasoSACAdmin(admin.ModelAdmin):
-    # Campos que se muestran en la tabla principal
     list_display = (
         'num_rad_sac', 'ciudadano', 'estudiante', 
         'fecha_radicacion', 'estado_sac', 'clasificacion'
     )
     
-    # Filtros laterales para búsqueda rápida
     list_filter = ('estado_sac', 'clasificacion', 'traslado_ie', 'respondido')
     
     # Barra de búsqueda
