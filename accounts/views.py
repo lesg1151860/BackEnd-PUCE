@@ -1,12 +1,26 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model # CAMBIA ESTO
+from rest_framework import generics
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
+from accounts.models import Usuario
+from .serializers import MyTokenObtainPairSerializer, RegistroUsuarioSerializer
 
-User = get_user_model() # CAMBIA ESTO
+# --- Vista personalizada para obtener el token JWT con información adicional ---
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
-class UsuarioListView(APIView):
-    def get(self, request):
-        users = User.objects.all() # Ahora esto funcionará
-        from .serializers import UserSerializer
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+# --- Vista para listar y crear usuarios ---
+class UsuarioListCreateView(generics.ListCreateAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = RegistroUsuarioSerializer
+           
+# --- Vista de Registro ---
+class RegistroUsuarioView(generics.CreateAPIView):
+     queryset = Usuario.objects.all()
+     permission_classes = (AllowAny,) # AllowAny permite que cualquiera se registre. 
+     serializer_class = RegistroUsuarioSerializer
+
+# --- Vista de Detalle, Actualización y Eliminación de Usuario ---
+class UsuarioDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = RegistroUsuarioSerializer
+    permission_classes = [AllowAny]    
