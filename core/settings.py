@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'sac',
     'siuce',
     'accounts',
+    'institucion_educativa',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
