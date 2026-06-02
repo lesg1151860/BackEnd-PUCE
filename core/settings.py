@@ -25,14 +25,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = 'accounts.Usuario'
 
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
-    'app',
-    'app.sac',
-    'app.siuce',
+    'sac',
+    'siuce',
     'accounts',
     'corsheaders',
     'django.contrib.admin',
@@ -76,22 +75,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 load_dotenv() 
 
 DATABASES = {
-    'default': { # SAC
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'puce_sac',
+        'NAME': 'puce_db',
         'USER': os.getenv('DB_USER_SAC'),
         'PASSWORD': os.getenv('DB_PASSWORD_SAC'),
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'siuce_db': { # SIUCE
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'puce_siuce',
-        'USER': os.getenv('DB_USER_SIUCE'),
-        'PASSWORD': os.getenv('DB_PASSWORD_SIUCE'),
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -110,8 +101,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'es-co'
+
 TIME_ZONE = 'America/Bogota'
+
 USE_I18N = True
+
 USE_TZ = True
 
 STATIC_URL = 'static/'
@@ -123,10 +117,10 @@ REST_FRAMEWORK = {
     )
 }
 
-# Configuración básica del Token (Opcional pero recomendada)
+# Configuración básica del Token JWT
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1), # El usuario tendrá que loguearse cada 24 horas
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -158,5 +152,3 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
-
-DATABASE_ROUTERS = ['core.routers.PuceRouter']
