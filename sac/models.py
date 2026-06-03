@@ -65,6 +65,7 @@ class CasoSAC(models.Model):
     institucion_2 = models.ForeignKey(InstitucionEducativa, on_delete=models.PROTECT, related_name='casos_institucion_2', null=True, blank=True)
         
     class Meta:
+        db_table = 'caso_sac'
         verbose_name = "Caso SAC"
         verbose_name_plural = "Casos SAC"
 
