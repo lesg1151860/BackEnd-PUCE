@@ -12,9 +12,10 @@ class InstitucionEducativa(models.Model):
     num_contacto = models.CharField(max_length=50, verbose_name="Número de Contacto", blank=True, null=True)
 
     class Meta:
+        db_table = 'institucion_educativa'
         verbose_name = 'Institución Educativa'
         verbose_name_plural = 'Instituciones Educativas'
-        ordering = ['nombre'] # Ordena alfabéticamente por defecto
+        ordering = ['nombre']
 
     def __str__(self):
         return f"{self.nombre} - {self.get_sector_display()} - {self.rector}"
