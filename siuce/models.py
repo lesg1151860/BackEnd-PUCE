@@ -59,6 +59,8 @@ class CasoSIUCE(models.Model):
     
     class Meta:
         db_table = 'caso_siuce'
+        verbose_name = "Caso SIUCE"
+        verbose_name_plural = "Casos SIUCE"
 
     def save(self, *args, **kwargs):
         porcentaje_ie = self.accion_ie.porcentaje if self.accion_ie else 0.0
