@@ -1,32 +1,7 @@
 from django.db import models
 from django.conf import settings
 from institucion_educativa.models import InstitucionEducativa
-
-# --- Catálogos ---
-
-class RolCiudadano(models.Model):
-    descripcion = models.CharField(max_length=100)
-    
-    def __str__(self): 
-        return self.descripcion
-
-class EstadoSAC(models.Model):
-    descripcion = models.CharField(max_length=100)
-    
-    def __str__(self): 
-        return self.descripcion
-
-class SACRespuesta(models.Model):
-    descripcion = models.TextField()
-    
-    def __str__(self): 
-        return self.descripcion
-
-class Clasificacion(models.Model):
-    descripcion = models.CharField(max_length=100)
-    
-    def __str__(self): 
-        return self.descripcion
+from catalogos.models import RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso
 
 # --- Modelo Principal: Caso SAC ---
 class CasoSAC(models.Model):
@@ -54,20 +29,20 @@ class CasoSAC(models.Model):
     # Fechas
     fecha_nueva_prorroga = models.DateField(blank=True, null=True)
 
-    # Relaciones (Foreign Keys)
-    rol_ciudadano = models.ForeignKey(RolCiudadano, on_delete=models.PROTECT)
-    estado_sac = models.ForeignKey(EstadoSAC, on_delete=models.PROTECT)
-    sac_respuesta = models.ForeignKey(SACRespuesta, on_delete=models.SET_NULL, null=True, blank=True)
-    clasificacion = models.ForeignKey(Clasificacion, on_delete=models.PROTECT)
-    
-    # Instituciones (Mapeando Id_Institucion_1 e Id_Institucion_2 al nuevo modelo importado)
+    # --- Relaciones (Foreign Keys) ---
+    rol_ciudadano = models.ForeignKey(RolCiudadano, on_delete=models.PROTECT, verbose_name="Rol del Ciudadano")
+    estado_sac = models.ForeignKey(EstadoSAC, on_delete=models.PROTECT, verbose_name="Estado SAC")
+    sac_respuesta = models.ForeignKey(RespuestaSAC, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Respuesta SAC")
+    clasificacion = models.ForeignKey(ClasificacionCaso, on_delete=models.PROTECT, verbose_name="Clasificación")
     institucion_1 = models.ForeignKey(InstitucionEducativa, on_delete=models.PROTECT, related_name='casos_institucion_1')
     institucion_2 = models.ForeignKey(InstitucionEducativa, on_delete=models.PROTECT, related_name='casos_institucion_2', null=True, blank=True)
         
     class Meta:
-        db_table = 'caso_sac'
+        db_table = 'Caso_SAC'
         verbose_name = "Caso SAC"
         verbose_name_plural = "Casos SAC"
 
     def __str__(self):
-        return f"{self.num_rad_sac} - {self.ciudadano} - {self.estudiante} - {self.estado_sac} - {self.clasificacion}"
+        # Utilizamos .nombre_rol para el estado según la estructura de la app de catálogos
+        estado_actual = self.estado_sac.nombre_rol if self.estado_sac else "Sin Estado"
+        return f"{self.num_rad_sac} - {self.ciudadano} - {self.estudiante} - {estado_actual}"
