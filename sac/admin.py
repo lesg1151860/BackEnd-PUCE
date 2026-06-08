@@ -1,29 +1,5 @@
 from django.contrib import admin
-from .models import (
-    RolCiudadano, EstadoSAC, SACRespuesta, 
-    Clasificacion, InstitucionEducativa, CasoSAC
-)
-
-@admin.register(RolCiudadano)
-class RolCiudadanoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descripcion')
-    search_fields = ('descripcion',)
-
-@admin.register(EstadoSAC)
-class EstadoSACAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descripcion')
-    search_fields = ('descripcion',)
-
-@admin.register(SACRespuesta)
-class SACRespuestaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descripcion')
-    search_fields = ('descripcion',)
-
-@admin.register(Clasificacion)
-class ClasificacionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descripcion')
-    search_fields = ('descripcion',)
-
+from .models import CasoSAC
 
 @admin.register(CasoSAC)
 class CasoSACAdmin(admin.ModelAdmin):
