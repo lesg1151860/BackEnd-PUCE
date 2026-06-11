@@ -43,6 +43,5 @@ class CasoSAC(models.Model):
         verbose_name_plural = "Casos SAC"
 
     def __str__(self):
-        # Utilizamos .nombre_rol para el estado según la estructura de la app de catálogos
         estado_actual = self.estado_sac.nombre_rol if self.estado_sac else "Sin Estado"
         return f"{self.num_rad_sac} - {self.ciudadano} - {self.estudiante} - {estado_actual}"
