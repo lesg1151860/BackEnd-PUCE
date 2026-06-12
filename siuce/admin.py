@@ -1,20 +1,16 @@
 from django.contrib import admin
-from .models import (
-    CasoSIUCE, TipoAgresion, TipoDano, 
-    EventoGenerador, ClasificacionLey1620, 
-    CatalogoAccionIE, CatalogoAccionSEM
-)
-
-# Registramos los catálogos y el caso principal
-admin.site.register(TipoAgresion)
-admin.site.register(TipoDano)
-admin.site.register(EventoGenerador)
-admin.site.register(ClasificacionLey1620)
-admin.site.register(CatalogoAccionIE)
-admin.site.register(CatalogoAccionSEM)
+from .models import CasoSIUCE
 
 @admin.register(CasoSIUCE)
 class CasoSIUCEAdmin(admin.ModelAdmin):
-    # Esto te permite ver los campos calculados aunque no sean editables
-    readonly_fields = ('avance_general', 'estado', 'fecha_registro')
+    # Campos que se calculan automáticamente en el save()
+    readonly_fields = ('avance_ie', 'avance_sem', 'avance_general', 'estado', 'fecha_registro')
+    
+    # Visualización en la tabla de lista
     list_display = ('radicado_sac', 'estado', 'avance_general', 'fecha_registro')
+    
+    # Filtros para facilitar la gestión
+    list_filter = ('estado', 'fecha_registro')
+    
+    # Buscador por radicado o víctima
+    search_fields = ('radicado_sac', 'estudiante_victima')
