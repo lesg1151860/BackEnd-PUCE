@@ -1,3 +1,4 @@
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     RolCiudadanoViewSet, EstadoSACViewSet, RespuestaSACViewSet, 
@@ -25,4 +26,6 @@ router.register(r'rol_agresor', RolAgresorViewSet)
 router.register(r'acciones_ie', AccionesIEViewSet)
 router.register(r'acciones_sem', AccionesSEMViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls)),
+]
