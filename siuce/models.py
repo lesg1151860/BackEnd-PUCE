@@ -26,8 +26,10 @@ class CasoSIUCE(models.Model):
     accion_ie = models.ForeignKey(AccionesIE, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Acción I.E.")
     accion_sem = models.ForeignKey(AccionesSEM, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Acción S.E.M.")
     
-    # Relación muchos a muchos para daños
-    tipos_dano = models.ManyToManyField(TipoDano, verbose_name="Tipos de Daño")
+    # Daños (relaciones con TipoDano)
+    dano_principal = models.ForeignKey('catalogos.TipoDano', on_delete=models.RESTRICT,related_name='caso_siuce_dano_principal', null=True, blank=True, verbose_name="Daño Principal")
+    dano_secundario = models.ForeignKey('catalogos.TipoDano', on_delete=models.RESTRICT, related_name='caso_siuce_dano_secundario', null=True, blank=True, verbose_name="Daño Secundario")
+    dano_terciario = models.ForeignKey('catalogos.TipoDano', on_delete=models.RESTRICT, related_name='caso_siuce_dano_terciario', null=True, blank=True, verbose_name="Daño Terciario")
 
     # --- Otros Campos ---
     avance_ie = models.FloatField(default=0.0, verbose_name="Avance I.E.")
