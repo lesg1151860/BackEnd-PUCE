@@ -10,7 +10,23 @@ class ClasificacionCasoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClasificacionCaso
         fields = '__all__'
+
+    def validate_descripcion(self, value):
+        # 1. Limpiamos espacios al inicio y final
+        descripcion_limpia = value.strip()
         
+        # 2. Buscamos registros existentes que sean iguales ignorando mayúsculas/minúsculas
+        # Usamos exclude para ignorar el objeto actual si estamos en modo edición
+        query = ClasificacionCaso.objects.filter(descripcion__iexact=descripcion_limpia)
+        
+        if self.instance:
+            query = query.exclude(id=self.instance.id)
+            
+        if query.exists():
+            raise serializers.ValidationError("Ya existe una clasificación con este nombre.")
+            
+        return descripcion_limpia
+    
 # --- Catálogos SAC ---
 class RolCiudadanoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,10 +50,28 @@ class EstadoSACSerializer(serializers.ModelSerializer):
         model = EstadoSAC
         fields = '__all__'
 
+    def validate_estado_sac(self, value):
+        nombre_limpio = value.strip()
+        query = EstadoSAC.objects.filter(estado_sac__iexact=nombre_limpio)
+        if self.instance:
+            query = query.exclude(id=self.instance.id)
+        if query.exists():
+            raise serializers.ValidationError("Ya existe un estado con este nombre.")
+        return nombre_limpio
+
 class RespuestaSACSerializer(serializers.ModelSerializer):
     class Meta:
         model = RespuestaSAC
         fields = '__all__'
+
+    def validate_respuesta_sac(self, value):
+        nombre_limpio = value.strip()
+        query = RespuestaSAC.objects.filter(respuesta_sac__iexact=nombre_limpio)
+        if self.instance:
+            query = query.exclude(id=self.instance.id)
+        if query.exists():
+            raise serializers.ValidationError("Ya existe una respuesta con este nombre.")
+        return nombre_limpio
 
 # --- Catálogos SIUCE ---
 class TipoIdentificacionSerializer(serializers.ModelSerializer):

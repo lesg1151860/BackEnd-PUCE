@@ -49,8 +49,7 @@ class ClasificacionCaso(models.Model):
         return self.descripcion
 
 class TipoIdentificacion(models.Model):
-    codigo = models.CharField(max_length=100, verbose_name="Código del Tipo de Identificación")
-    descripcion = models.CharField(max_length=100, verbose_name="Descripción de la Tipo de Identificación")
+    tipo_identificacion = models.CharField(max_length=100, verbose_name="Descripción de la Tipo de Identificación")
     activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
@@ -59,7 +58,7 @@ class TipoIdentificacion(models.Model):
         verbose_name_plural = 'Tipos de Identificaciones'
     
     def __str__(self):
-        return self.codigo + " - " + self.descripcion
+        return self.tipo_identificacion
 
 class EstadoSIUCE(models.Model):
     estado_siuce = models.CharField(max_length=255, verbose_name="Nombre del Estado SIUCE")

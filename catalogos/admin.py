@@ -18,9 +18,9 @@ class CatalogoSimpleAdmin(admin.ModelAdmin):
 # 2. Registramos los modelos con campos especiales
 @admin.register(TipoIdentificacion)
 class TipoIdentificacionAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'descripcion', 'activo')
+    list_display = ( 'tipo_identificacion', 'activo')
     list_filter = ('activo',)
-    search_fields = ('codigo', 'descripcion')
+    search_fields = ('tipo_identificacion',)
 
 @admin.register(AccionesIE)
 class AccionesIEAdmin(admin.ModelAdmin):
