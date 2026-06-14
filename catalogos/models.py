@@ -2,6 +2,7 @@ from django.db import models
 
 class RolCiudadano(models.Model):
     nombre_rol = models.CharField(max_length=255, verbose_name="Nombre del Rol")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Rol_Ciudadano'
@@ -13,6 +14,7 @@ class RolCiudadano(models.Model):
 
 class EstadoSAC(models.Model):
     estado_sac = models.CharField(max_length=255, verbose_name="Nombre del Estado")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Estados_SAC'
@@ -24,7 +26,8 @@ class EstadoSAC(models.Model):
 
 class RespuestaSAC(models.Model):
     respuesta_sac = models.CharField(max_length=255, verbose_name="Nombre de la Respuesta")
-
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+    
     class Meta:
         db_table = 'Respuestas_SAC'
         verbose_name = 'Respuesta SAC'
@@ -35,6 +38,7 @@ class RespuestaSAC(models.Model):
 
 class ClasificacionCaso(models.Model):
     descripcion = models.CharField(max_length=100, verbose_name="Descripción de la Clasificación")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
     
     class Meta:
         db_table = 'Clasificacion_caso'
@@ -59,6 +63,7 @@ class TipoIdentificacion(models.Model):
 
 class EstadoSIUCE(models.Model):
     estado_siuce = models.CharField(max_length=255, verbose_name="Nombre del Estado SIUCE")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Estados_SIUCE'
@@ -70,7 +75,8 @@ class EstadoSIUCE(models.Model):
 
 class TipoDano(models.Model):
     tipo_dano = models.CharField(max_length=255, verbose_name="Nombre del Tipo de Daño")
-
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+    
     class Meta:
         db_table = 'Tipos_Dano'
         verbose_name = 'Tipo de Daño'
@@ -81,6 +87,7 @@ class TipoDano(models.Model):
 
 class TipoAgresion(models.Model):
     tipo_agresion = models.CharField(max_length=255, verbose_name="Nombre del Tipo de Agresión")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Tipos_Agresion'
@@ -92,6 +99,7 @@ class TipoAgresion(models.Model):
         
 class EventoGenerador(models.Model):
     evento_generador = models.CharField(max_length=255, verbose_name="Nombre del Evento Generador")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Eventos_Generadores'
@@ -103,6 +111,7 @@ class EventoGenerador(models.Model):
     
 class LugarHechos(models.Model):
     nom_lugar = models.CharField(max_length=255, verbose_name="Nombre del Lugar de los Hechos")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Lugares_Hechos'
@@ -114,6 +123,7 @@ class LugarHechos(models.Model):
 
 class GradoEscolaridad(models.Model):
     nom_grado = models.CharField(max_length=255, verbose_name="Nombre del Grado de Escolaridad")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Grados_Escolaridad'
@@ -125,6 +135,7 @@ class GradoEscolaridad(models.Model):
     
 class RolAgresor(models.Model):
     nom_rol_agresor = models.CharField(max_length=255, verbose_name="Nombre del Rol del Agresor")
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Rol_Agresor'
@@ -137,7 +148,8 @@ class RolAgresor(models.Model):
 class AccionesIE(models.Model):
     nom_accion_ie = models.CharField(max_length=255, verbose_name="Nombre de la Acción de la Institución Educativa")
     porcentaje = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Porcentaje de la Acción")
-    
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+
     class Meta:
         db_table = 'Acciones_IE'
         verbose_name = 'Acción de IE'
@@ -149,7 +161,7 @@ class AccionesIE(models.Model):
 class AccionesSEM(models.Model):
     nom_accion_sem = models.CharField(max_length=255, verbose_name="Nombre de la Acción de la SEM")
     porcentaje = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Porcentaje de la Acción")
-    
+    activo = models.BooleanField(default=True, verbose_name="Activo")
     class Meta:
         db_table = 'Acciones_SEM'
         verbose_name = 'Acción de SEM'
