@@ -17,6 +17,18 @@ class RolCiudadanoSerializer(serializers.ModelSerializer):
         model = RolCiudadano
         fields = '__all__'
 
+    def validate_nombre_rol(self, value):
+        nombre_limpio = value.strip()
+        query = RolCiudadano.objects.filter(nombre_rol__iexact=nombre_limpio)
+        
+        if self.instance:
+            query = query.exclude(id=self.instance.id)
+            
+        if query.exists():
+            raise serializers.ValidationError("Ya existe un rol registrado con este nombre.")
+            
+        return nombre_limpio
+
 class EstadoSACSerializer(serializers.ModelSerializer):
     class Meta:
         model = EstadoSAC
