@@ -3,37 +3,66 @@ from .models import CasoSAC
 
 @admin.register(CasoSAC)
 class CasoSACAdmin(admin.ModelAdmin):
+
     list_display = (
-        'num_rad_sac', 'ciudadano', 'estudiante', 
-        'fecha_radicacion', 'estado_sac', 'clasificacion'
+        'num_radicado_sac', 
+        'ciudadano', 
+        'estudiante', 
+        'fecha_radicacion', 
+        'rol_ciudadano', 
+        'estado_sac', 
+        'respondido'
     )
     
-    list_filter = ('estado_sac', 'clasificacion', 'traslado_ie', 'respondido')
+    list_display_links = ('num_radicado_sac', 'ciudadano')
     
-    # Barra de búsqueda
-    search_fields = ('num_rad_sac', 'ciudadano', 'estudiante')
+    search_fields = ('num_radicado_sac', 'ciudadano', 'estudiante')
     
-    # Para mejorar la experiencia en formularios largos, puedes agrupar campos
+    list_filter = (
+        'estado_sac', 
+        'respondido', 
+        'prorroga', 
+        'rol_ciudadano', 
+        'fecha_radicacion', 
+        'institucion_1'
+    )
+    
     fieldsets = (
-        ('Información General', {
-            'fields': ('num_rad_sac', 'ciudadano', 'estudiante', 'fecha_radicacion')
-        }),
-        ('Seguimiento y Radicados', {
+        ('Información Básica del Radicado', {
             'fields': (
-                'radicado_respuesta', 'radicado_externa', 'num_radicado_traslado', 
-                'radicado_prorroga', 'radicado_contestacion'
+                'num_radicado_sac', 
+                'fecha_radicacion', 
+                'estado_sac'
             )
         }),
-        ('Estados y Flags', {
+        ('Información de los Implicados', {
             'fields': (
-                'traslado_ie', 'respondido', 'prorroga', 
-                'fecha_nueva_prorroga', 'contestacion_ie'
+                'ciudadano', 
+                'rol_ciudadano', 
+                'estudiante'
             )
         }),
-        ('Relaciones y Catálogos', {
+        ('Detalles de la Clasificación e Instituciones', {
             'fields': (
-                'rol_ciudadano', 'estado_sac', 'sac_respuesta', 
-                'clasificacion', 'institucion_1', 'institucion_2', 'usuario'
+                'clasificacion', 
+                'institucion_1', 
+                'traslado_ie', 
+                'institucion_2', 
+                'num_radicado_traslado'
+            )
+        }),
+        ('Gestión de Prórrogas y Respuestas', {
+            'fields': (
+                'prorroga', 
+                'fecha_nueva_prorroga', 
+                'radicado_prorroga',
+                'contestacion_ie', 
+                'radicado_contestacion_ie',
+                'respondido', 
+                'radicado_respuesta', 
+                'sac_respuesta'
             )
         }),
     )
+
+    raw_id_fields = ('institucion_1', 'institucion_2')
