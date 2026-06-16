@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    RolCiudadanoViewSet, EstadoSACViewSet, RespuestaSACViewSet, 
+    InstitucionEducativaViewSet, RolCiudadanoViewSet, EstadoSACViewSet, RespuestaSACViewSet, 
     ClasificacionCasoViewSet, TipoIdentificacionViewSet, EstadoSIUCEViewSet,
     TipoDanoViewSet, TipoAgresionViewSet, EventoGeneradorViewSet,
     LugarHechosViewSet, GradoEscolaridadViewSet, RolAgresorViewSet,
@@ -11,6 +11,7 @@ from .views import (
 router = DefaultRouter()
 
 # Registro de rutas para catálogos SAC y SIUCE
+router.register(r'institucion_educativa', InstitucionEducativaViewSet)
 router.register(r'rol_ciudadano', RolCiudadanoViewSet)
 router.register(r'estado_sac', EstadoSACViewSet)
 router.register(r'respuesta_sac', RespuestaSACViewSet)
