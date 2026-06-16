@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso,
+    InstitucionEducativa, RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso,
     TipoIdentificacion, EstadoSIUCE, TipoDano, TipoAgresion,
     EventoGenerador, LugarHechos, GradoEscolaridad, RolAgresor,
     AccionesIE, AccionesSEM
@@ -8,10 +8,10 @@ from .models import (
 
 # 1. Registramos los modelos simples
 @admin.register(RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso,
-                EstadoSIUCE, TipoDano, TipoAgresion, EventoGenerador,
+                EstadoSIUCE, TipoDano, TipoAgresion, InstitucionEducativa, EventoGenerador,
                 LugarHechos, GradoEscolaridad, RolAgresor)
 class CatalogoSimpleAdmin(admin.ModelAdmin):
-    # Asume que todos tienen un campo que se representa en __str__
+    
     list_display = ('id', '__str__')
     search_fields = ('__str__',)
 

@@ -10,6 +10,7 @@ class InstitucionEducativa(models.Model):
     sector = models.CharField(max_length=10, choices=SECTOR_CHOICES, default='PUBLICA')
     rector = models.CharField(max_length=255, verbose_name="Nombre del Rector")
     num_contacto = models.CharField(max_length=50, verbose_name="Número de Contacto", blank=True, null=True)
+    activo = models.BooleanField(default=True, verbose_name="Activo")
 
     class Meta:
         db_table = 'Institucion_Educativa'
@@ -18,7 +19,7 @@ class InstitucionEducativa(models.Model):
         ordering = ['nombre']
 
     def __str__(self):
-        return f"{self.nombre} - {self.get_sector_display()} - {self.rector}"
+        return f"{self.nombre} - {self.get_sector_display()} - {self.rector} - {self.num_contacto} - {'Activo' if self.activo else 'Inactivo'}"
 
 class RolCiudadano(models.Model):
     nombre_rol = models.CharField(max_length=255, verbose_name="Nombre del Rol")

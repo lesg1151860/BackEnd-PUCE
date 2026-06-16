@@ -17,11 +17,8 @@ class ClasificacionCasoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_descripcion(self, value):
-        # 1. Limpiamos espacios al inicio y final
         descripcion_limpia = value.strip()
         
-        # 2. Buscamos registros existentes que sean iguales ignorando mayúsculas/minúsculas
-        # Usamos exclude para ignorar el objeto actual si estamos en modo edición
         query = ClasificacionCaso.objects.filter(descripcion__iexact=descripcion_limpia)
         
         if self.instance:
