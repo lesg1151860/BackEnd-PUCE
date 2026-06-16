@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('institucion_educativa', '0001_initial'),
+        ('catalogos', '0001_initial'),
     ]
 
     operations = [
@@ -58,8 +58,8 @@ class Migration(migrations.Migration):
                 ('prorroga', models.BooleanField(default=False)),
                 ('contestacion_ie', models.BooleanField(default=False)),
                 ('fecha_nueva_prorroga', models.DateField(blank=True, null=True)),
-                ('institucion_1', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='casos_institucion_1', to='institucion_educativa.institucioneducativa')),
-                ('institucion_2', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='casos_institucion_2', to='institucion_educativa.institucioneducativa')),
+                ('institucion_1', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='casos_institucion_1', to='catalogos.institucioneducativa')),
+                ('institucion_2', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='casos_institucion_2', to='catalogos.institucioneducativa')),
                 ('clasificacion', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='sac.clasificacion')),
                 ('estado_sac', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='sac.estadosac')),
                 ('rol_ciudadano', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='sac.rolciudadano')),
