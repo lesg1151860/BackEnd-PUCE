@@ -1,20 +1,25 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import (
-    ClasificacionCaso, RolCiudadano, EstadoSAC, RespuestaSAC,
+    InstitucionEducativa, ClasificacionCaso, RolCiudadano, EstadoSAC, RespuestaSAC,
     TipoIdentificacion, EstadoSIUCE, TipoDano, TipoAgresion,
     EventoGenerador, LugarHechos, GradoEscolaridad, RolAgresor,
     AccionesIE, AccionesSEM
 )
 from .serializers import (
-    ClasificacionCasoSerializer, RolCiudadanoSerializer, EstadoSACSerializer, 
+    InstitucionEducativaSerializer, ClasificacionCasoSerializer, RolCiudadanoSerializer, EstadoSACSerializer, 
     RespuestaSACSerializer, TipoIdentificacionSerializer, EstadoSIUCESerializer, 
     TipoDanoSerializer, TipoAgresionSerializer, EventoGeneradorSerializer, 
     LugarHechosSerializer, GradoEscolaridadSerializer, RolAgresorSerializer, 
     AccionesIESerializer, AccionesSEMSerializer
 )
 
-# --- ViewSets SAC ---
+class InstitucionEducativaViewSet(viewsets.ModelViewSet):
+    queryset = InstitucionEducativa.objects.all().order_by('id')
+    serializer_class = InstitucionEducativaSerializer
+    permission_classes = [IsAuthenticated]
+    
+# --- ViewSets SAC ---   
 class RolCiudadanoViewSet(viewsets.ModelViewSet):
     queryset = RolCiudadano.objects.all().order_by('id')
     serializer_class = RolCiudadanoSerializer

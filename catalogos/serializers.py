@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from .models import (
-    RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso, 
+    InstitucionEducativa, InstitucionEducativa, RolCiudadano, EstadoSAC, RespuestaSAC, ClasificacionCaso, 
     TipoIdentificacion, EstadoSIUCE, TipoDano, TipoAgresion, 
     EventoGenerador, LugarHechos, GradoEscolaridad, RolAgresor, 
     AccionesIE, AccionesSEM
 )
 
+class InstitucionEducativaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitucionEducativa
+        fields = '__all__'
+        
 class ClasificacionCasoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClasificacionCaso
