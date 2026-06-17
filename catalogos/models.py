@@ -5,7 +5,6 @@ class InstitucionEducativa(models.Model):
         ('PUBLICA', 'Pública'),
         ('PRIVADA', 'Privada'),
     ]
-
     nombre = models.CharField(max_length=255, verbose_name="Nombre de la Institución")
     sector = models.CharField(max_length=10, choices=SECTOR_CHOICES, default='PUBLICA')
     rector = models.CharField(max_length=255, verbose_name="Nombre del Rector")
@@ -34,6 +33,7 @@ class RolCiudadano(models.Model):
         return self.nombre_rol
 
 class EstadoSAC(models.Model):
+    
     estado_sac = models.CharField(max_length=255, verbose_name="Nombre del Estado")
     activo = models.BooleanField(default=True, verbose_name="Activo")
 
