@@ -54,7 +54,7 @@ class EstadoSACSerializer(serializers.ModelSerializer):
 
     def validate_estado_sac(self, value):
         nombre_limpio = value.strip()
-        query = EstadoSAC.objects.filter(estado_sac__iexact=nombre_limpio)
+        query = EstadoSAC.objects.filter(estado_sac=nombre_limpio)
         if self.instance:
             query = query.exclude(id=self.instance.id)
         if query.exists():

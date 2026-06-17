@@ -1,5 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from sac.views import CasoSACViewSet
 from .views import (
     InstitucionEducativaViewSet, RolCiudadanoViewSet, EstadoSACViewSet, RespuestaSACViewSet, 
     ClasificacionCasoViewSet, TipoIdentificacionViewSet, EstadoSIUCEViewSet,
@@ -11,6 +12,7 @@ from .views import (
 router = DefaultRouter()
 
 # Registro de rutas para catálogos SAC y SIUCE
+router.register(r'casos-sac', CasoSACViewSet)
 router.register(r'institucion_educativa', InstitucionEducativaViewSet)
 router.register(r'rol_ciudadano', RolCiudadanoViewSet)
 router.register(r'estado_sac', EstadoSACViewSet)
