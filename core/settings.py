@@ -14,9 +14,6 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&f=o2ctoya)4xmbbky5kvl)5lwyrxq+pn@&_^9kqpbif6uqs#='
 
@@ -25,13 +22,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = 'accounts.Usuario'
 
 # Application definition
 INSTALLED_APPS = [
-    'app',
-    'app.sac',
-    'app.siuce',
+    'rest_framework',
+    'sac',
+    'siuce',
+    'accounts',
+    'catalogos',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,22 +73,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 load_dotenv() 
 
 DATABASES = {
-    'default': { # SAC
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'puce_sac',
+        'NAME': 'puce_db',
         'USER': os.getenv('DB_USER_SAC'),
         'PASSWORD': os.getenv('DB_PASSWORD_SAC'),
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'siuce_db': { # SIUCE
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'puce_siuce',
-        'USER': os.getenv('DB_USER_SIUCE'),
-        'PASSWORD': os.getenv('DB_PASSWORD_SIUCE'),
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -108,8 +99,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'es-co'
+
 TIME_ZONE = 'America/Bogota'
+
 USE_I18N = True
+
 USE_TZ = True
 
 STATIC_URL = 'static/'
@@ -118,13 +112,16 @@ STATIC_URL = 'static/'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # Requiere login por defecto
     )
 }
 
-# Configuración básica del Token (Opcional pero recomendada)
+# Configuración básica del Token JWT
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1), # El usuario tendrá que loguearse cada 24 horas
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -156,5 +153,3 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
-
-DATABASE_ROUTERS = ['core.routers.PuceRouter']
