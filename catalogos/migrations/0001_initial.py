@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Clasificación de Caso',
                 'verbose_name_plural': 'Clasificaciones de Casos',
-                'db_table': 'clasificacion-caso',
+                'db_table': 'Clasificacion_caso',
             },
         ),
         migrations.CreateModel(
