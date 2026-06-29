@@ -1,10 +1,19 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 class InstitucionEducativa(models.Model):
+    
+    dane_validator = RegexValidator(
+        regex=r'^\d{12}$', 
+        message='El código DANE debe tener exactamente 12 dígitos numéricos.'
+    )
+    
     SECTOR_CHOICES = [
         ('PUBLICA', 'Pública'),
         ('PRIVADA', 'Privada'),
     ]
+    
+    cod_dane = models.CharField(max_length=12, unique=True, validators=[dane_validator], verbose_name="Código DANE")
     nombre = models.CharField(max_length=255, verbose_name="Nombre de la Institución")
     sector = models.CharField(max_length=10, choices=SECTOR_CHOICES, default='PUBLICA')
     rector = models.CharField(max_length=255, verbose_name="Nombre del Rector")
@@ -18,7 +27,7 @@ class InstitucionEducativa(models.Model):
         ordering = ['nombre']
 
     def __str__(self):
-        return f"{self.nombre} - {self.get_sector_display()} - {self.rector} - {self.num_contacto} - {'Activo' if self.activo else 'Inactivo'}"
+        return f"{self.cod_dane} - {self.nombre} - {self.get_sector_display()} - {self.rector} - {self.num_contacto} - {'Activo' if self.activo else 'Inactivo'}"
 
 class RolCiudadano(models.Model):
     nombre_rol = models.CharField(max_length=255, verbose_name="Nombre del Rol")
