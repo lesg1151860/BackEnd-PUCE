@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from accounts.models import Usuario
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -38,3 +40,14 @@ class RegistroUsuarioSerializer(serializers.ModelSerializer):
             
         user.save()
         return user
+
+class CambiarPasswordSerializer(serializers.Serializer):
+    password_actual = serializers.CharField(required=True)
+    nueva_password = serializers.CharField(required=True)
+
+    def validate_nueva_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(list(e.messages))
+        return value
