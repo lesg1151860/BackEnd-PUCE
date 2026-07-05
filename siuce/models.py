@@ -5,6 +5,9 @@ from catalogos.models import (
     EventoGenerador, LugarHechos, GradoEscolaridad, RolAgresor, 
     AccionesIE, AccionesSEM
 )
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class CasoSIUCE(models.Model):
     """
@@ -44,6 +47,7 @@ class CasoSIUCE(models.Model):
     descripcion_avance = models.TextField(blank=True, null=True, verbose_name="Descripción del Caso")
     rad_entidad_ext = models.CharField(max_length=255, blank=True, null=True, verbose_name="Radicados en Entidades Externas")
     fecha_rad_entidad_ext = models.DateField(blank=True, null=True, verbose_name="Fecha de Radicación en Entidades Externas")
+    usuario_registro_siuce = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, related_name='casos_siuce_registrados', verbose_name="Registrado por", null=True, blank=True)
     
     
     class Meta:
