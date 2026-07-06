@@ -12,6 +12,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
+        data['username'] = self.user.username
+        data['first_name'] = self.user.first_name
+        data['last_name'] = self.user.last_name
         data['role'] = "ADMINISTRADOR" if self.user.is_staff else "LIDER"
         return data
 
