@@ -1,16 +1,15 @@
 from rest_framework import serializers
 from .models import CasoSIUCE
-# Importamos los modelos de catálogo para asegurar que existan las relaciones
 from catalogos.models import (
-    TipoIdentificacion, EstadoSIUCE, TipoDano, TipoAgresion, 
-    EventoGenerador, LugarHechos, GradoEscolaridad, RolAgresor, 
-    AccionesIE, AccionesSEM
-)
+    TipoIdentificacion, EstadoSIUCE, TipoDano, TipoAgresion,EventoGenerador, LugarHechos,
+    GradoEscolaridad, RolAgresor, AccionesIE, AccionesSEM)
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class CasoSIUCESerializer(serializers.ModelSerializer):
-    """
-    Serializer para CasoSIUCE que maneja todas las relaciones de catálogos.
-    """
+    
+    usuario_registro_siuce = serializers.StringRelatedField(read_only=True)
     
     class Meta:
         model = CasoSIUCE
@@ -19,9 +18,9 @@ class CasoSIUCESerializer(serializers.ModelSerializer):
             'avance_ie', 
             'avance_sem', 
             'avance_general', 
-            'estado', 
-            'fecha_registro'
+            'estado',
+            'usuario_registro_siuce',
         )
 
     def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+        return super().update(instance, validated_data)  
