@@ -61,7 +61,7 @@ class CasoSIUCE(models.Model):
         
         self.porcentaje_avance_ie = porcentaje_ie
         self.porcentaje_avance_sem = porcentaje_sem
-        self.avance_general = porcentaje_ie + porcentaje_sem
+        self.avance_general = (porcentaje_ie + porcentaje_sem) / 2
         
         if self.avance_general <= 0:
             nombre_estado = 'PENDIENTE'
