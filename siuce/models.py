@@ -6,6 +6,7 @@ from catalogos.models import (
     AccionesIE, AccionesSEM
 )
 from django.contrib.auth import get_user_model
+from decimal import Decimal
 
 User = get_user_model()
 
@@ -34,7 +35,7 @@ class CasoSIUCE(models.Model):
     clasificacion = models.ForeignKey(ClasificacionCaso, on_delete=models.PROTECT, null=True, verbose_name="Clasificación del Caso")
     lugar_hechos = models.ForeignKey(LugarHechos, on_delete=models.PROTECT, null=True, verbose_name="Lugar de los Hechos")
     fecha_ocurrencia = models.DateField(verbose_name="Fecha de Ocurrencia", default=timezone.now)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
+    fecha_registro = models.DateField(verbose_name="Fecha de Registro", default=timezone.now)
     seguimiento_ie = models.BooleanField(default=False, verbose_name="En Seguimiento I.E.")
     num_seguimiento_ie = models.CharField(max_length=10, blank=True, null=True, verbose_name="Seguimiento I.E.")
     seguimiento_policia = models.BooleanField(default=False, verbose_name="En Seguimiento Policía")
@@ -61,7 +62,7 @@ class CasoSIUCE(models.Model):
         
         self.porcentaje_avance_ie = porcentaje_ie
         self.porcentaje_avance_sem = porcentaje_sem
-        self.avance_general = (porcentaje_ie + porcentaje_sem) / 2
+        self.avance_general = (Decimal(str(porcentaje_ie)) + Decimal(str(porcentaje_sem))) / 2
         
         if self.avance_general <= 0:
             nombre_estado = 'PENDIENTE'
