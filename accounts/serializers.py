@@ -8,6 +8,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+        token['username'] = user.username
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
+        token['role'] = "ADMINISTRADOR" if user.is_staff else "LIDER"
         return token
 
     def validate(self, attrs):
@@ -18,14 +22,21 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['role'] = "ADMINISTRADOR" if self.user.is_staff else "LIDER"
         return data
 
+
 class RegistroUsuarioSerializer(serializers.ModelSerializer):
-    
-    is_staff = serializers.BooleanField(required=False)
+    is_staff = serializers.BooleanField(required=False, default=False)
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
 
     class Meta:
         model = Usuario
-        fields = ('id','username', 'email', 'first_name', 'last_name', 'password','is_staff') 
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'password', 'is_staff')
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(list(e.messages))
+        return value
 
     def create(self, validated_data):
         es_admin = validated_data.pop('is_staff', False)
@@ -43,6 +54,7 @@ class RegistroUsuarioSerializer(serializers.ModelSerializer):
             
         user.save()
         return user
+
 
 class CambiarPasswordSerializer(serializers.Serializer):
     password_actual = serializers.CharField(required=True)
